@@ -9,7 +9,7 @@ function require_package {
 	installed=$(dpkg-query -W -f='${Status}' ${package_name} | grep -c "ok installed" || true)
 	exec 2>&3
 	set -e
-	
+
 	if [ $installed -eq 0 ];
 	then
 		echo -e "\e[31m - not found, installing now...\e[0m"
@@ -112,9 +112,12 @@ function choose_kernel_branch {
 		"5.11")									# kernel 5.11
 			echo hwe-5.11
 			;;
+		"5.13")									# kernel 5.13
+			echo hwe-5.13
+			;;
 		*)
 			#error message shall be redirected to stderr to be printed properly
-			echo -e "\e[31mUnsupported kernel version $1 . The Focal patches are maintained for Ubuntu LTS with kernel 5.4, 5.8, 5.11 only\e[0m" >&2
+			echo -e "\e[31mUnsupported kernel version $1 . The Focal patches are maintained for Ubuntu LTS with kernel 5.4, 5.8, 5.11, 5.13 only\e[0m" >&2
 			exit 1
 			;;
 		esac
@@ -143,7 +146,7 @@ function try_load_module {
 	else
 		printf "\e[32mn/a\e[0m"
 	fi
-	
+
 	if [ $op_failed -ne 0 ];
 	then
 		echo -e "\e[31mFailed to reload module $load_module_name. error type $op_failed . Operation is aborted\e[0m"  >&2
